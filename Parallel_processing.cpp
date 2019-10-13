@@ -5,10 +5,18 @@
 
 using namespace std;
 
-void swap(vector<int> list, int a, int b) {
+template<class T>
+void swap(vector<T> &list, int a, int b) {
 	int tmp = list[a];
 	list[a] = list[b];
 	list[b] = list[a];
+}
+
+template<typename T>
+void AddRange(vector<T> &from, vector<T> &to) {
+	for (T& elem : from) {
+		to.push_back(elem);
+	}
 }
 
 void Sort(vector<int>& list) {
@@ -40,13 +48,9 @@ void Sort(vector<int>& list) {
 
 		list.clear();
 
-		for (auto& elem : firstHalf) 
-			list.push_back(elem);
+		AddRange(firstHalf, list);
 		list.push_back(pivot);
-		for (auto& elem : secondHalf) 
-			list.push_back(elem);
-		
-		//return list;
+		AddRange(secondHalf, list);
 	}
 	catch (...) {
 		cout << "Error while sorting." << endl;
@@ -55,7 +59,7 @@ void Sort(vector<int>& list) {
 
 void Run() {
 	try {
-		vector<int> first_half, second_half, list = { 2, 4, 1, 6, 7, 4, 1, 10, 7, 6, 14, 19, 9 };
+		vector<int> first_half, second_half, list = { 2, 4, 1, 6, 7, 4, 8, 10, 7, 6, 14, 19, 9 };
 
 		for (auto elem : list) 
 			if (elem < list[list.size() / 2]) 
@@ -68,14 +72,12 @@ void Run() {
 
 		list.clear();
 
-		for (auto elem : first_half) 
-			list.push_back(elem);
+		AddRange(first_half, list);
 
 		if (th.joinable())  //wait
 			th.join();
 
-		for (auto elem : second_half) 
-			list.push_back(elem);
+		AddRange(second_half, list);
 
 		for (auto elem : list) 
 			printf("%d ", elem);
